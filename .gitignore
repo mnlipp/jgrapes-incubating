@@ -1,0 +1,9 @@
+.gradle/
+.metadata/
+.recommenders/
+/cnf/
+/build/
+**/.classpath
+**/.project
+/node_modules/
+/package-lock.json

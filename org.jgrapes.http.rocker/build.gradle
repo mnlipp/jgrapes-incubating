@@ -1,0 +1,9 @@
+dependencies {
+	
+	compile 'org.jgrapes:org.jgrapes.portal:0.9.1-SNAPSHOT'
+
+	// We don't compile rocker templates here, 
+	// only the possibility to run rocker templates
+	compile 'com.fizzed:rocker-runtime:0.20.0'
+}
+
