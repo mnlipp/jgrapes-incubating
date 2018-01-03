@@ -7,3 +7,28 @@ dependencies {
 	compile 'com.fizzed:rocker-runtime:0.20.0'
 }
 
+ext.releaseVersion = "0.9.3"
+ext.isSnapshot = true
+version = releaseVersion + (isSnapshot ? "-SNAPSHOT" : "")
+
+apply plugin: 'biz.aQute.bnd.builder'
+	
+// Provide the Bundle-Version (shared by all libraries)
+String bundleVersion = releaseVersion +
+	(isSnapshot ? ".-\${tstamp}-SNAPSHOT" : releaseVersion + ".rel")
+	
+jar {
+	manifest {
+		attributes('Bundle-Version': bundleVersion)
+	}
+}
+
+dependencies {
+	// Use gradle mechanims to get the artifact to baseline against.
+	// We baseline against the previous release
+	// (latest excluding current)
+	baseline("${group}:${project.name}:(,${releaseVersion})") {
+		transitive false
+	}
+}
+

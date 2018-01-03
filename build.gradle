@@ -40,7 +40,6 @@ allprojects {
 
 subprojects {
 
-    apply plugin: 'biz.aQute.bnd.builder'
 	apply plugin: 'signing'
 	apply plugin: 'maven'
 	apply plugin: 'maven-publish'
@@ -48,20 +47,6 @@ subprojects {
     tasks.withType(Javadoc).all { enabled = false }
 
 	group = 'org.jgrapes'
-	
-	if (project.file("bnd.bnd").exists()) {
-		// The builder plugin doesn't provide access to the bnd properties.
-		// Provide workaround as properties in extra bnd
-		new Processor().withCloseable { processor ->
-			processor.setProperties(project.file('bnd.bnd'))
-			ext.set("bnd", processor.getFlattenedProperties());
-		}
-		
-		// Maintain the version in the bnd.bnd. Else, bndtools won't
-		// generate a proper Bundle-Version header for incrementally 
-		// built jars.
-		version = bnd.artifact_version
-	}
 	
     dependencies {
         compileOnly 'org.osgi:org.osgi.annotation:6.0.0'
@@ -189,6 +174,9 @@ subprojects {
 	afterEvaluate {
 		if(!project.name.startsWith("org.jgrapes")) {
 			tasks.matching { it.group == "publishing" }.all {
+				enabled = false
+			}
+			tasks.matching { it.name == "baseline" }.all {
 				enabled = false
 			}
 		}
