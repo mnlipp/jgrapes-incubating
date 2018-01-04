@@ -15,7 +15,7 @@ apply plugin: 'biz.aQute.bnd.builder'
 	
 // Provide the Bundle-Version (shared by all libraries)
 String bundleVersion = releaseVersion +
-	(isSnapshot ? ".-\${tstamp}-SNAPSHOT" : releaseVersion + ".rel")
+	(isSnapshot ? ".-\${tstamp}-SNAPSHOT" : ".rel")
 	
 jar {
 	manifest {
